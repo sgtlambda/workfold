@@ -22,6 +22,7 @@ const workfold = async (jobId, fn) => {
         } catch (e) {
             running[jobId].forEach(([, reject]) => reject(e));
             running[jobId] = [];
+            throw e;
         } finally {
             running[jobId].forEach(([resolve]) => resolve(result));
             delete running[jobId];
