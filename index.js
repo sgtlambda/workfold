@@ -8,7 +8,7 @@ const running = {};
  * @param {String} jobId
  * @returns {Promise<*>}
  */
-module.exports = async (jobId, fn) => {
+const workfold = async (jobId, fn) => {
     if (jobId in running) {
         await new Promise((resolve, reject) => {
             running[jobId].push([resolve, reject]);
@@ -27,4 +27,20 @@ module.exports = async (jobId, fn) => {
             delete running[jobId];
         }
     }
+};
+
+module.exports = workfold;
+
+/**
+ * Given a function that turns the input arguments to the job into a job ID,
+ * return a "bound" version of workfold that can be called directly
+ * @param {Function} mapArguments
+ * @param {Function} fn
+ * @returns {function(...[*])}
+ */
+module.exports.bind = (mapArguments, fn) => {
+    return (...args) => {
+        let jobId = mapArguments(...args);
+        return workfold(jobId, () => fn(...args));
+    };
 };
