@@ -8,7 +8,7 @@ const running = {};
  * @param {String} jobId
  * @returns {Promise<*>}
  */
-module.exports = async (fn, jobId) => {
+module.exports = async (jobId, fn) => {
     if (jobId in running) {
         await new Promise((resolve, reject) => {
             running[jobId].push([resolve, reject]);
