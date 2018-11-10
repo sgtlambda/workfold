@@ -5,5 +5,8 @@
   "license": "MIT",
   "devDependencies": {
     "delay": "^4.1.0"
+  },
+  "scripts": {
+    "test": "node ./test.js"
   }
 }
